@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+		"http://struts.apache.org/dtds/struts-2.5.dtd">
+
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<!-- <global-allowed-methods>regex:.*</global-allowed-methods> -->
+	
+	<package name="que" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="loginInterceptor" />
+			<interceptor-stack name="my_que_stack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack">
+					<param name="modelDriven.refreshModelBeforeResult">true</param>
+					<param name="fileUpload.maximumSize">500000</param>
+					<!-- <param name="fileUpload.allowedExtendsions">.jpg,.jpeg,.png,.bmp,.gif</param> -->
+					<param name="fileUpload.allowedTypes">
+						image/jpg,image/jpeg,image/png,image/bmp,image/gif
+					</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="my_que_stack" />
+		<global-results>
+			<result name="login">/index.jsp</result>
+			
+			<result name="designSurveyAction" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">SurveyAction_designSurvey</param>
+				<param name="sid">${sid}</param>
+			</result>
+			
+			<result name="mySurveysAction" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">SurveyAction_mySurveys</param>
+			</result>
+			
+		</global-results>
+		
+	</package>
+	
+</struts>
+
